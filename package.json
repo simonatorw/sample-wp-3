@@ -5,13 +5,14 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-	"build": "webpack --env production",
-	"start": "webpack-dev-server --env development"
+    "build": "webpack --env production",
+    "start": "webpack-dev-server --env development",
+    "lint:js": "eslint app/ --cache"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/simonatorw/sample-wp-3.git"
-  },  
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -20,6 +21,11 @@
     "react-dom": "^15.6.1"
   },
   "devDependencies": {
+    "babel-eslint": "^7.2.3",
+    "eslint": "^4.1.1",
+    "eslint-loader": "^1.8.0",
+    "eslint-plugin-import": "^2.6.0",
+    "eslint-plugin-react": "^7.1.0",
     "html-webpack-plugin": "^2.29.0",
     "webpack": "^3.0.0",
     "webpack-dev-server": "^2.5.0"

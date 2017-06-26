@@ -32,15 +32,30 @@ const prodConfig = {
 			}
 		})
 	]
-	
 };
 
 const devConfig = {
+	module: {
+		rules: [
+			{
+				test: /\.js$/,
+				enforce: 'pre',
+				loader: 'eslint-loader',
+				options: {
+					emitWarning: true
+				}
+			}
+		]
+	},
 	devServer: {
 		historyApiFallback: true,
 		stats: 'errors-only',
 		host: process.env.HOST,
-		port: process.env.PORT
+		port: process.env.PORT,
+		overlay: {
+			errors: true,
+			warnings: true
+		}
 	}
 	
 };
