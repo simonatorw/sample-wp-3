@@ -25,6 +25,14 @@ const commonConfig = {
 };
 
 const prodConfig = {
+	module: {
+		rules: [
+			{
+				test: /\.css$/,
+				use: ['style-loader', 'css-loader']
+			}
+		]
+	},	
 	plugins: [
 		new webpack.optimize.UglifyJsPlugin({
 			compress: {
@@ -36,7 +44,7 @@ const prodConfig = {
 
 const devConfig = {
 	module: {
-		rules: [
+		rules: [	
 			{
 				test: /\.js$/,
 				enforce: 'pre',
@@ -44,7 +52,15 @@ const devConfig = {
 				options: {
 					emitWarning: true
 				}
-			}
+			},
+			{
+				test: /\.css$/,
+				use: [
+					'style-loader', 
+					{ loader: 'css-loader', options: { sourceMap: true, importLoaders: 1 } }, 
+					'postcss-loader'
+				]
+			}			
 		]
 	},
 	devServer: {
