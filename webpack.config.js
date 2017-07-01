@@ -1,6 +1,13 @@
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
+
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const cssPlugin = new ExtractTextPlugin({
+	filename: '[name].css'
+});
+const PurifyCssPlugin = require('purifycss-webpack');
+const glob = require('glob');
 
 const PATHS = {
 	app: path.join(__dirname, 'app'),
@@ -9,19 +16,13 @@ const PATHS = {
 };
 
 const commonConfig = {
-
 	entry: {
 		app: PATHS.app
 	},
 	output: {
 		path: PATHS.build,
 		filename: '[name].js'
-	},
-	plugins: [
-		new HtmlWebpackPlugin({
-			template: PATHS.template
-		})
-	]
+	}
 };
 
 const prodConfig = {
@@ -29,7 +30,10 @@ const prodConfig = {
 		rules: [
 			{
 				test: /\.css$/,
-				use: ['style-loader', 'css-loader']
+				use: cssPlugin.extract({
+					use: ['css-loader', 'postcss-loader'],
+					fallback: 'style-loader'
+				})
 			}
 		]
 	},	
@@ -38,7 +42,14 @@ const prodConfig = {
 			compress: {
 				warnings: false
 			}
-		})
+		}),
+		cssPlugin,
+		new PurifyCssPlugin({
+			paths: glob.sync(`${PATHS.app}/**/*.js`, {nodir: true }),
+			minimize: true
+		}),
+		new HtmlWebpackPlugin()
+		
 	]
 };
 
@@ -72,8 +83,12 @@ const devConfig = {
 			errors: true,
 			warnings: true
 		}
-	}
-	
+	},
+	plugins: [
+		new HtmlWebpackPlugin({
+			template: PATHS.template
+		})
+	]	
 };
 
 module.exports = (env) => {

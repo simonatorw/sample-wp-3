@@ -1,0 +1,10 @@
+.redText {
+	color: red;
+	font-weight: bold;
+	opacity: .6;
+	display: flex;
+	text-transform: uppercase;
+}
+.greenText {
+	color: green;
+}

@@ -1,4 +1,4 @@
-import component from './component';
+import component from './components/component';
 import './index.css';
 
 document.body.appendChild(component());
