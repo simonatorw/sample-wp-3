@@ -15,17 +15,15 @@ const PATHS = {
 	template: path.join(__dirname, 'index.html')
 };
 
-const commonConfig = {
+const prodConfig = {
 	entry: {
-		app: PATHS.app
+		app: PATHS.app,
+		vendor: ['react', 'react-dom']
 	},
 	output: {
 		path: PATHS.build,
 		filename: '[name].js'
-	}
-};
-
-const prodConfig = {
+	},
 	module: {
 		rules: [
 			{
@@ -34,10 +32,24 @@ const prodConfig = {
 					use: ['css-loader', 'postcss-loader'],
 					fallback: 'style-loader'
 				})
-			}
+			},
+			{
+				test: /\.js$/,
+				use: [
+					{
+						loader: 'babel-loader',
+						options: {
+							cacheDirectory: true
+						}
+					}
+				]
+			}			
 		]
 	},	
 	plugins: [
+		new webpack.optimize.CommonsChunkPlugin({
+			name: 'vendor'
+		}),
 		new webpack.optimize.UglifyJsPlugin({
 			compress: {
 				warnings: false
@@ -54,6 +66,13 @@ const prodConfig = {
 };
 
 const devConfig = {
+	entry: {
+		app: PATHS.app
+	},
+	output: {
+		path: PATHS.build,
+		filename: '[name].js'
+	},	
 	module: {
 		rules: [	
 			{
@@ -70,6 +89,17 @@ const devConfig = {
 					'style-loader', 
 					{ loader: 'css-loader', options: { sourceMap: true, importLoaders: 1 } }, 
 					'postcss-loader'
+				]
+			},
+			{
+				test: /\.js$/,
+				use: [
+					{
+						loader: 'babel-loader',
+						options: {
+							cacheDirectory: true
+						}
+					}
 				]
 			}			
 		]
@@ -94,9 +124,9 @@ const devConfig = {
 module.exports = (env) => {
 	console.log('env', env);
 	if (env === 'production') {
-		return Object.assign({}, commonConfig, prodConfig);
+		return prodConfig;
 	} else if (env === 'development') {
-		return Object.assign({}, commonConfig, devConfig);
+		return devConfig;
 	}
 	
 };
