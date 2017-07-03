@@ -2,3 +2,27 @@
 	color: red;
 	font-weight: bold;
 }
+table {
+	width: 30%;
+	border-collapse: collapse;
+}
+th {
+	text-align: left;
+	border-bottom: 1px solid #333;
+	width: 50%;
+	cursor: pointer;
+}
+.asc:after {
+	content: "\25b2";
+	color: green;
+}
+.des:after {
+	content: "\25bc";
+	color: red;
+}
+tr:nth-child(even) {
+	background-color: #ddd;
+}
+.amt {
+	text-align: right;
+}

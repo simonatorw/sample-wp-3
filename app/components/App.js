@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+//import Lazy from './Lazy';
 import './App.css';
 
 export default class App extends Component {
@@ -18,8 +19,8 @@ export default class App extends Component {
 		const { Lazy } = this.state;
 		return (
 			<div>
-				hello <span className="redText">simon</span>
-				<a href="#" onClick={ this.lazyLoad.bind(this) }>Get helloworld</a>
+				<h1 className="title">{'Simon\'s Showroom'}</h1>
+				{ !Lazy && <a href="#" onClick={ this.lazyLoad.bind(this) }>Show inventory</a> }
 				{ Lazy && <Lazy /> }
 			</div>
 		);
