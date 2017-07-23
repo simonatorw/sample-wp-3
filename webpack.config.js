@@ -63,7 +63,7 @@ const prodConfig = {
 		cssPlugin,
 		new PurifyCssPlugin({
 			paths: glob.sync(`${PATHS.app}/**/*.js`, {nodir: true }),
-			minimize: true
+			minimize: false
 		}),
 		new HtmlWebpackPlugin()
 		

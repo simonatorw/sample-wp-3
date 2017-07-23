@@ -5,8 +5,9 @@
 	font-size: 1.3em;
 }
 a, a:visited {
-	color: blue;
+	/* color: blue; */
 }
+
 .greenText {
 	color: green;
 }
