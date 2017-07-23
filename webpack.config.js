@@ -4,7 +4,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const cssPlugin = new ExtractTextPlugin({
-	filename: '[name].css'
+	filename: '[name].[contenthash:8].css'
 });
 const PurifyCssPlugin = require('purifycss-webpack');
 const glob = require('glob');
@@ -22,7 +22,7 @@ const prodConfig = {
 	},
 	output: {
 		path: PATHS.build,
-		filename: '[name].js'
+		filename: '[name].[chunkhash:8].js'
 	},
 	module: {
 		rules: [
