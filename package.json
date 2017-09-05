@@ -17,9 +17,14 @@
   "author": "Simonatorw",
   "license": "ISC",
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
+    "express": "^4.15.4",
     "jquery": "^3.2.1",
     "react": "^15.6.1",
-    "react-dom": "^15.6.1"
+    "react-dom": "^15.6.1",
+    "react-redux": "^5.0.6",
+    "redux": "^3.7.2",
+    "redux-saga": "^0.15.6"
   },
   "devDependencies": {
     "babel-core": "^6.25.0",

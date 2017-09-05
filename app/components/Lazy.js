@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { array } from 'prop-types';
 
 import './Lazy.css';
 
-export default class Lazy extends Component {
+class Lazy extends Component {
 	state = {
-		data: [
-			{ make: 'Ferrari', model: '458', price: 250000 },
-			{ make: 'Lambo', model: 'LP560-4', price: 150000 },
-			{ make: 'Porsche', model: '911 4S', price: 100000 }
-		],
 		col: {
 			makeAsc: true,
 			modelAsc: true,
@@ -16,9 +13,12 @@ export default class Lazy extends Component {
 			current: ''
 		}
 	};
+	static propTypes = {
+		data: array.isRequired
+	};
 	sort(col) {
 		let bool;
-		const data = this.state.data.sort((a, b) => {
+		const data = this.props.data.sort((a, b) => {
 			if (this.state.col[col + 'Asc']) {
 				bool = false;
 				return a[col] > b[col];
@@ -46,7 +46,7 @@ export default class Lazy extends Component {
 					</tr>
 				</thead>
 				<tbody>
-					{ this.state.data.map((item, i) => {
+					{ this.props.data.map((item, i) => {
 						return (
 							<tr key={i + '_' + item.make}>
 								<td>{item.make}</td>
@@ -60,3 +60,11 @@ export default class Lazy extends Component {
 		);		
 	}
 }
+
+function mapStateToProps(store) {	
+	return {
+		data: store.data
+	};
+}
+
+export default connect(mapStateToProps)(Lazy);
