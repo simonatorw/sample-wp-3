@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 
+//plugins
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const cssPlugin = new ExtractTextPlugin({
@@ -8,6 +9,9 @@ const cssPlugin = new ExtractTextPlugin({
 });
 const PurifyCssPlugin = require('purifycss-webpack');
 const glob = require('glob');
+const Visualizer = require('webpack-visualizer-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
+const BabiliPlugin = require('babili-webpack-plugin');
 
 const PATHS = {
 	app: path.join(__dirname, 'app'),
@@ -18,7 +22,7 @@ const PATHS = {
 const prodConfig = {
 	entry: {
 		app: PATHS.app,
-		vendor: ['react', 'react-dom']
+		vendor: ['react', 'react-dom', 'redux', 'react-redux', 'redux-saga', 'babel-polyfill', 'chartist']
 	},
 	output: {
 		path: PATHS.build,
@@ -39,7 +43,8 @@ const prodConfig = {
 					{
 						loader: 'babel-loader',
 						options: {
-							cacheDirectory: true
+							cacheDirectory: true,
+							presets: ['react', 'es2016', 'stage-2']
 						}
 					}
 				]
@@ -47,6 +52,7 @@ const prodConfig = {
 		]
 	},	
 	plugins: [
+		new CleanWebpackPlugin(PATHS.build),
 		new webpack.optimize.CommonsChunkPlugin({
 			name: 'vendor'
 		}),
@@ -55,16 +61,20 @@ const prodConfig = {
 				NODE_ENV: JSON.stringify('production')
 			}
 		}),
-		new webpack.optimize.UglifyJsPlugin({
+		new BabiliPlugin(),
+		/*new webpack.optimize.UglifyJsPlugin({
 			compress: {
 				warnings: false
-			}
-		}),
+			},
+			exclude: [PATHS.app]
+		}),*/
+		//new UglifyJsPlugin({exclude: [PATHS.app]}),
 		cssPlugin,
-		new PurifyCssPlugin({
-			paths: glob.sync(`${PATHS.app}/**/*.js`, {nodir: true }),
-			minimize: false
-		}),
+		//new PurifyCssPlugin({
+		//	paths: glob.sync(`${PATHS.app}/**/*.js`, {nodir: true }),
+		//	minimize: false
+		//}),
+		new Visualizer(),		
 		new HtmlWebpackPlugin()
 		
 	]
@@ -77,7 +87,7 @@ const devConfig = {
 	output: {
 		path: PATHS.build,
 		filename: '[name].js'
-	},	
+	},
 	module: {
 		rules: [	
 			{
@@ -102,7 +112,8 @@ const devConfig = {
 					{
 						loader: 'babel-loader',
 						options: {
-							cacheDirectory: true
+							cacheDirectory: true,
+							presets: ['react', 'es2016', 'stage-2']
 						}
 					}
 				]

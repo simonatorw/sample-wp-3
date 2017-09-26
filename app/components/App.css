@@ -1,3 +1,4 @@
+@import 'chartist/dist/chartist.min.css';
 .title {
 	color: purple;
 	font-weight: bold;

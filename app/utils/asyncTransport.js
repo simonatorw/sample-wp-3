@@ -1,1 +1,1 @@
-export const fetchGet = (url) => fetch(url).then(response => response.json()).then(data => data);
+export const fetchGet = async (url) => await (await fetch(url)).json();
